@@ -2,6 +2,9 @@
 
 ## Description
 
+A command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.
+The user will be able to view, add and manage the departments, roles, and employees within their company.
+
 ## Screenshot of Application
 
 The following image demonstrates the web application's appearance and functionality:

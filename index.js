@@ -19,13 +19,6 @@ conn.connect(function (err) {
     if (err) throw err;
 });
 
-findAllDepartments() {
-    return this.connection.promise().query(
-        "SELECT department.id, department.name FROM department;"
-    );
-};
-
-
 
 // render employee manager logo text
 function init() {
@@ -36,7 +29,6 @@ function init() {
     // load user prompt
     userPrompt();
 }
-
 // view all departments, roles, and employees. 
 // add a department, role, add an employee.
 // update an employee role.
@@ -92,12 +84,12 @@ function userPrompt() {
 async function viewDepartments() {
     try {
         const res = await new Promise((resolve, reject) => {
-            conn.query('SELECT * FROM department', (err, res) => {
+            conn.query('SELECT department.id, department.name FROM department;', (err, rows) => {
                 if (err) reject(err);
-                else resolve(res);
+                else resolve(rows);
             });
         });
-
+        console.log("\n");
         console.table(res);
         userPrompt();
     } catch (err) {
@@ -109,12 +101,12 @@ async function viewDepartments() {
 async function viewRoles() {
     try {
         const res = await new Promise((resolve, reject) => {
-            conn.query('SELECT * FROM role', (err, res) => {
+            conn.query('SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;', (err, rows) => {
                 if (err) reject(err);
-                else resolve(res);
+                else resolve(rows);
             });
         });
-
+        console.log("\n");
         console.table(res);
         userPrompt();
     } catch (err) {
@@ -126,12 +118,12 @@ async function viewRoles() {
 async function viewEmployees() {
     try {
         const res = await new Promise((resolve, reject) => {
-            conn.query('SELECT * FROM employee', (err, res) => {
+            conn.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;', (err, rows) => {
                 if (err) reject(err);
-                else resolve(res);
+                else resolve(rows);
             });
         });
-
+        console.log("\n");
         console.table(res);
         userPrompt();
     } catch (err) {
@@ -300,9 +292,6 @@ async function updateEmployeeRole() {
         console.error('Error updating employee role:', err);
     }
 }
-
-// 'Exit':
-
 // Exit the application
 function Exit() {
     console.log("Have A Great Day!!");

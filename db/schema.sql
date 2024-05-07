@@ -10,17 +10,16 @@ USE employees_db;
 -- creates the table department
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) UNIQUE NOT NULL
 );
 
 -- creates the table role
 CREATE TABLE role (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) NOT NULL,
+    title VARCHAR(30) UNIQUE NOT NULL,
     salary DECIMAL,
     department_id INT,
-    FOREIGN KEY (department_id) 
-    REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 -- creates the table employee
@@ -30,7 +29,6 @@ CREATE TABLE employee (
     last_name VARCHAR(30) NOT NULL,
     role_id INT,
     manager_id INT,
-    FOREIGN KEY (role_id) REFERENCES role(id)
-    FOREIGN KEY (manager_id) 
-    REFERENCES employee(id)
+    FOREIGN KEY (role_id) REFERENCES role(id),
+    FOREIGN KEY (manager_id) REFERENCES employee(id)
 );

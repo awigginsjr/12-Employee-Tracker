@@ -146,7 +146,7 @@ async function addDepartment() {
             });
         });
 
-        console.log('Added Department!');
+        console.log(`Added Department!`);
         userPrompt();
     } catch (err) {
         console.error(err);
@@ -156,6 +156,13 @@ async function addDepartment() {
 // 'Add a Role':
 async function addRole() {
     try {
+        const [rows] = await getAllDepartments();
+        const departments = rows;
+        const departmentOptions = departments.map(({ id, name }) => ({
+            name: name,
+            value: id
+        }));
+
         const answers = await prompt([
             {
                 name: 'title',
@@ -166,14 +173,10 @@ async function addRole() {
                 message: "What is the salary of the role?"
             },
             {
-                type: 'input',
-                name: 'department',
-                message: 'Enter the department for the role:'
-                // type: "list",
-                // name: 'department_id',
-                // message: "Which department does the role belong to?",
-                // choices: departmentName
-                // // choices: ['Sales','Engineering','Finance','Legal']
+                type: 'list',
+                name: "department_id",
+                message: "Which department does the role belong to?",
+                choices: departmentOptions
             }
         ]);
 
@@ -183,7 +186,7 @@ async function addRole() {
                 else resolve(res);
             });
         });
-
+        console.log("\n");
         console.log('Added Role!');
         userPrompt();
     } catch (err) {
@@ -191,6 +194,62 @@ async function addRole() {
         await addRole();
     }
 }
+
+function getAllDepartments() {
+    return conn.promise().query(
+        "SELECT department.id, department.name FROM department;"
+    );
+}
+
+// async function addRole() {
+//     let findAllDepartments() => {
+//         return this.connection.promise().query(
+//           "SELECT department.id, department.name FROM department;"
+//         );
+//       }
+//       .then(([rows]) => {
+//         let departments = rows;
+//         const departmentChoices = departments.map(({ id, name }) => ({
+//           name: name,
+//           value: id
+//         }));
+//     try {
+//         const answers = await prompt([
+//             {
+//                 name: 'title',
+//                 message: "What is the name of the role?"
+//             },
+//             {
+//                 name: 'salary',
+//                 message: "What is the salary of the role?"
+//             },
+//             {
+//                 type: 'input',
+//                 name: "department_id",
+//                 message: "Which department does the role belong to?",
+//                 choices: departmentChoices
+//                 // type: "list",
+//                 // name: 'department_id',
+//                 // message: "Which department does the role belong to?",
+//                 // choices: departmentName
+//                 // // choices: ['Sales','Engineering','Finance','Legal']
+//             }
+//         ]);
+
+//         await new Promise((resolve, reject) => {
+//             conn.query('INSERT INTO role SET ?', answers, (err, res) => {
+//                 if (err) reject(err);
+//                 else resolve(res);
+//             });
+//         });
+//         console.log("\n");
+//         console.log('Added Role!');
+//         userPrompt();
+//     } catch (err) {
+//         console.error('Role not added!', err);
+//         await addRole();
+//     }
+// }
 
 // 'Add an Employee':
 async function addEmployee() {

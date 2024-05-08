@@ -10,7 +10,7 @@ The following image demonstrates the web application's appearance and functional
 
 Demo Link ~ []()
 
-![screenshot]()
+![screenshot](/assets/images/employeetrackerscreenshot.png)
 
 ## Usage
 

@@ -8,7 +8,7 @@ A command-line application to manage a company's employee database, using Node.j
 
 The following image demonstrates the web application's appearance and functionality:
 
-Demo Link ~ []()
+Demo Link ~ [https://drive.google.com/file/d/1kFK2hXUiDCVUmRdZWm2QROhuSLHswo09/view](https://drive.google.com/file/d/1kFK2hXUiDCVUmRdZWm2QROhuSLHswo09/view)
 
 ![screenshot](/assets/images/employeetrackerscreenshot.png)
 
